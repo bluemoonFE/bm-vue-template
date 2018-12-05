@@ -1,5 +1,7 @@
 import Home from '@/views/Home.vue'
+{{#wechat}}
 import Auth from '@/views/Auth.vue'
+{{/wechat}}
 export default [
   {
     path: '/',
@@ -14,10 +16,10 @@ export default [
     meta: {
       diyShare: true
     }
-  },
+  }{{#wechat}},
   {
     path: '/auth',
     name: 'auth',
     component: Auth
-  }
+  }{{/wechat}}
 ]
