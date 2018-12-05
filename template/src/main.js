@@ -27,7 +27,6 @@ window.store = store2.namespace(AppConst.APP_PROP_APP_NAME)
     }
   }
   {{/wechat}}
-
   Vue.use(fragrant)
 
   new Vue({
