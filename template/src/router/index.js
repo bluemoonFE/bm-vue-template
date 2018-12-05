@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import routes from './routes'
+{{#wechat}}
 import { initWxJsSDK, configWxShare } from '@/utils/wechat/jssdk'
 import { isWeixin } from '@/utils/wechat/tools'
-import AppConst from '@/config'
 import combineURLs from '@/utils/url/combineURLs'
+import AppConst from '@/config'
+{{/wechat}}
 import { loggedIn } from '@/utils/auth'
 
 Vue.use(Router)
@@ -15,6 +17,7 @@ const router = new Router({
   routes
 })
 
+{{#wechat}}
 function configShareData() {
   initWxJsSDK().then(() => {
     configWxShare({
@@ -41,6 +44,11 @@ function configShare(route) {
   }
 }
 
+router.afterEach(route => {
+  configShare(route)
+})
+{{/wechat}}
+
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!loggedIn()) {
@@ -54,10 +62,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next() // 确保一定要调用 next()
   }
-})
-
-router.afterEach(route => {
-  configShare(route)
 })
 
 export default router
