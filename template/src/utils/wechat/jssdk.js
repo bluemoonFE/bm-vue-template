@@ -3,7 +3,7 @@ import { getJsSdkSign } from '@/api/wechat'
 import { isWeixin } from './tools'
 let isGetLocation = false
 
-let isConfiged = false
+let configured = false
 /**
  * 初始化微信JsSDK
  */
@@ -11,12 +11,12 @@ export const initWxJsSDK = () => {
   if (!isWeixin()) {
     return Promise.reject('非微信环境无法config')
   }
-  if (isConfiged && is.ios()) {
+  if (configured && window.__wxjs_is_wkwebview) {
     return Promise.resolve()
   }
   return getJsSdkSign({
     data: {
-      url: window.__wxjs_is_wkwebview  // 微信的 ios 环境
+      url: window.__wxjs_is_wkwebview // 微信的 ios 环境
         ? window.landPageUrl.split('#')[0]
         : window.location.href.split('#')[0]
     }
